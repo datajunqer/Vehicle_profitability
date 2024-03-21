@@ -1,0 +1,8 @@
+{
+  "defaultSchema": "vehicleprofitability",
+  "assertionSchema": "dataform_assertions",
+  "warehouse": "bigquery",
+  "defaultDatabase": "vehicleprofitability",
+  "defaultLocation": "US"
+}
+    

@@ -1,0 +1,13 @@
+config {
+    type: "table",
+    description: "This layer is to clean  raw options data",
+}
+
+SELECT
+  DISTINCT MODEL,
+  Option_Code,
+  Option_Desc,
+  IFNULL(Material_Cost, 0) AS Material_Cost,
+  AVG(IFNULL(Material_Cost, 0)) OVER (PARTITION BY Option_Code) AS Avg_Material_Cost
+FROM
+  ${ref("101_Raw_option_data")}

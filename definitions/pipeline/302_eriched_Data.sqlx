@@ -1,0 +1,26 @@
+config {
+    type: "table",
+    description: "This layer is to transform the data from base and options data",
+}
+
+SELECT
+    VIN,
+    Options_Code,
+    Model_Text,
+    Sales_Price,
+    CASE
+      WHEN Sales_Price <= 0 THEN 0
+      WHEN material_cost IS NOT NULL THEN material_cost
+    ELSE
+    COALESCE((SELECT
+                    DISTINCT Avg_Material_Cost
+                FROM
+                    ${ref("220_options_data")}
+                WHERE
+                    ${ref("220_options_data")}.Options_Code = vehicle_data.Options_Code), 
+            vehicle_data.sales_price * 0.45 )
+  END
+    AS Production_Cost
+  FROM
+    ${ref("301_data_transformed")} 
+

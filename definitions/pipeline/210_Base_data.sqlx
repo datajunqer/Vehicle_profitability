@@ -1,0 +1,21 @@
+config {
+    type: "table",
+    description: "This layer is to clean  raw base data",
+}
+
+SELECT
+  DISTINCT VIN,
+  Option_Quantities,
+  Options_Code,
+  Option_Desc,
+  TRIM(SPLIT(Model_Text, ' ')[OFFSET(0)]) AS vehicle_model,
+  CASE 
+    WHEN Sales_Price IS NULL THEN 0
+    WHEN Sales_Price < 0 THEN 0
+    ELSE Sales_Price
+  END AS Sales_Price
+FROM
+  ${ref("100_Raw_Base_Data")}
+WHERE
+    SUBSTR(VIN, 0, 3) = 'SAL'
+    AND Option_Quantities > 0

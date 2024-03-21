@@ -1,0 +1,17 @@
+config {
+    type: "operations",
+    hasOutput: true,
+    description: "raw data from base data",
+}
+
+CREATE OR REPLACE EXTERNAL TABLE
+  ${self()} ( VIN STRING,
+    Option_Quantities INTEGER,
+    Options_Code STRING,
+    Option_Desc STRING,
+    Model_Text STRING,
+    Sales_Price FLOAT64)
+    
+    OPTIONS ( format = 'CSV',
+    uris = ['gs://profitability_data_raw/base_data/*.csv'],
+    skip_leading_rows = 1 )

@@ -1,0 +1,16 @@
+config {
+    type: "operations",
+    hasOutput: true,
+    description: "raw data from option data",
+}
+
+CREATE OR REPLACE EXTERNAL TABLE
+  ${self()} ( MODEL STRING,
+    Option_Code STRING,
+    Option_Desc STRING,
+    Material_Cost FLOAT64
+    ) 
+    
+    OPTIONS ( format = 'CSV',
+    uris = ['gs://profitability_data_raw/options_data/*.csv'],
+    skip_leading_rows = 1 )
